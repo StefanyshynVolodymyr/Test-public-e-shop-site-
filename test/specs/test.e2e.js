@@ -11,7 +11,7 @@ describe('e-shop', () => {
       email = generateRandomEmail();
     });
 
-    it('should login with valid credentials', async () => {
+    it('Verify that allows register a User', async () => {
         await browser.url(`https://demowebshop.tricentis.com`)
 
         await $('.ico-register').click()
@@ -36,10 +36,9 @@ describe('e-shop', () => {
 
         await $("//a[@href='/logout']").click()
 
-
     })
 
-    it('should login with valid credentials', async () => {
+    it('Verify that allows login a User', async () => {
         await browser.url(`https://demowebshop.tricentis.com`)
 
         await $('.ico-login').click()
@@ -50,15 +49,31 @@ describe('e-shop', () => {
         await $("//input[@value='Log in']").click()
 
         expect (await ("//a[@href='/logout']']")).toBeDisplayed()
-       
-
-
-        
-
 
     })
 
+    it.only('Verify that allows login a User', async () => {
+        await browser.url(`https://demowebshop.tricentis.com`)
 
-   
+        await $("//ul[@class='list']//a[@href='/computers']").click()
+
+        const subGroupLinks = await $$('//ul[@class="sublist"]//li/a');
+        const subGroupNames = await Promise.all(subGroupLinks.map(async (link) => link.getText())); 
+       
+        // Define the expected sub-group names
+        const expectedSubGroupNames = ['Desktops', 'Notebooks', 'Accessories'];
+
+        // Check if there are exactly 3 sub-groups
+        expect(subGroupLinks.length).toBe(3);
+
+        // Verify the names of each sub-group
+        subGroupNames.forEach((subGroupName, index) => {
+        expect(subGroupName).toBe(expectedSubGroupNames[index]);
+  });
+
+
+ 
+
+    })   
 }) 
 
