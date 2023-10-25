@@ -21,9 +21,7 @@ export const config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [
-        // ToDo: define location for spec files here
-    ],
+    specs: ['./test/specs/test.e2e.js'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
