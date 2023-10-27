@@ -109,6 +109,46 @@ describe('e-shop', () => {
 
     expect(isSorted).toEqual(true);
   });
+
+
+  it('Verify that allows sorting items in descending order', async () => {
+    await browser.url(`https://demowebshop.tricentis.com`);
+  
+    // Navigate to the relevant page
+    await $("//ul[@class='list']//a[@href='/computers']").click();
+    await $("//h2[@class='title']/a[@title='Show products in category Desktops']").click();
+    await $("#products-orderby").click();
+    await $("option:nth-child(5)").click();
+  
+    // Select all product price elements
+    const productPrices = await $$(".product-grid .item-box .price.actual-price");
+  
+    // Extract and store product prices in an array
+    const prices = await Promise.all(productPrices.map(async (priceElement) => {
+      const productPrice = await priceElement.getText();
+      return parseFloat(productPrice.replace('$', '').replace(',', '')); // Assuming prices are formatted as $X,XXX.XX
+    }));
+  
+    // Check if prices are sorted from high to low
+    let isSorted = true;
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] > prices[i - 1]) {
+        isSorted = false;
+        break;
+      }
+    }
+  
+    // Log the result of the sorting check
+    if (isSorted) {
+      console.log('Product prices are sorted from high to low.');
+    } else {
+      console.log('Product prices are not sorted from high to low.');
+    }
+  
+    expect(isSorted).toEqual(true);
+  });
+  
+
    
 
 }) 
