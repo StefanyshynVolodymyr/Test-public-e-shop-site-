@@ -12,7 +12,7 @@ describe('e-shop', () => {
     });
 
     it('Verify that allows register a User', async () => {
-        await browser.url(`https://demowebshop.tricentis.com`)
+        await browser.url(`https://demowebshop.tricentis.com`);
 
         await $('.ico-register').click()
         await $("//input[@id='gender-male']").click()
@@ -31,15 +31,15 @@ describe('e-shop', () => {
         const submitButton = await $('#register-button');
         await submitButton.click()
 
-        let result = await $("//div[@class='result']").getText()
-        expect (result).toEqual('Your registration completed')
+        let result = await $("//div[@class='result']").getText();
+        expect (result).toEqual('Your registration completed');
 
         await $("//a[@href='/logout']").click()
 
-    })
+    });
 
     it('Verify that allows login a User', async () => {
-        await browser.url(`https://demowebshop.tricentis.com`)
+        await browser.url(`https://demowebshop.tricentis.com`);
 
         await $('.ico-login').click()
 
@@ -48,14 +48,14 @@ describe('e-shop', () => {
 
         await $("//input[@value='Log in']").click()
 
-        expect (await ("//a[@href='/logout']']")).toBeDisplayed()
+        expect (await ("//a[@href='/logout']']")).toBeDisplayed();
 
-    })
+    });
 
-    it.only('Verify that allows login a User', async () => {
-        await browser.url(`https://demowebshop.tricentis.com`)
+    it('Verify that Computers group has 3 sub-groups with correct names', async () => {
+        await browser.url(`https://demowebshop.tricentis.com`);
 
-        await $("//ul[@class='list']//a[@href='/computers']").click()
+        await $("//ul[@class='list']//a[@href='/computers']").click();
 
         const subGroupLinks = await $$('//ul[@class="sublist"]//li/a');
         const subGroupNames = await Promise.all(subGroupLinks.map(async (link) => link.getText())); 
@@ -68,12 +68,48 @@ describe('e-shop', () => {
 
         // Verify the names of each sub-group
         subGroupNames.forEach((subGroupName, index) => {
-        expect(subGroupName).toBe(expectedSubGroupNames[index]);
+        expect(subGroupName).toBe(expectedSubGroupNames[index])});
+        
+    });
+    
+    
+  it('Verify that allows sorting items (different options)', async () => {
+    await browser.url(`https://demowebshop.tricentis.com`);
+  
+    // Navigate to the relevant page
+    await $("//ul[@class='list']//a[@href='/computers']").click();
+    await $("//h2[@class='title']/a[@title='Show products in category Desktops']").click();
+    await $("#products-orderby").click();
+    await $("option:nth-child(4)").click();
+  
+    // Select all product price elements
+    const productPrices = await $$(".product-grid .item-box .price.actual-price");
+  
+    // Extract and store product prices in an array
+    const prices = await Promise.all(productPrices.map(async (priceElement) => {
+      const productPrice = await priceElement.getText();
+      return parseFloat(productPrice.replace('$', '').replace(',', '')); // Assuming prices are formatted as $X,XXX.XX
+    }));
+  
+    // Check if prices are sorted from low to high
+    let isSorted = true;
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] < prices[i - 1]) {
+        isSorted = false;
+        break;
+      }
+    }
+  
+    // Log the result of the sorting check
+    if (isSorted) {
+      console.log('Product prices are sorted from low to high.');
+    } else {
+      console.log('Product prices are not sorted from low to high.');
+    }
+
+    expect(isSorted).toEqual(true);
   });
+   
 
-
- 
-
-    })   
 }) 
 
