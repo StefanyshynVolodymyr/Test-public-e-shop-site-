@@ -148,8 +148,28 @@ describe('e-shop', () => {
     expect(isSorted).toEqual(true);
   });
   
+  it('Verify that allows changing number of items on page', async () => {
+    await browser.url(`https://demowebshop.tricentis.com`);
+  
+    // Navigate to the relevant page
+    await $("//ul[@class='list']//a[@href='/computers']").click();
+    await $("//h2[@class='title']/a[@title='Show products in category Desktops']").click();
+    
+    const productQuantity = await $$(".product-grid .item-box .product-item");
+    const products = await productQuantity.length;
 
+    //console.log(products)
+
+    await $("#products-pagesize > option:nth-child(1)").click();
+    const productQuantityChanged = await $$(".product-grid .item-box .product-item");
+    const productsChanged = await productQuantityChanged.length;
+    
+    expect (products).not.toEqual(productsChanged)
+
+});
    
 
-}) 
+
+
+});
 
