@@ -162,22 +162,57 @@ describe('e-shop', () => {
   });
 
   it('Verify that allows adding an item to the Wishlist', async () => {
-    await browser.url(`https://demowebshop.tricentis.com`);
+     await browser.url(`https://demowebshop.tricentis.com`);
 
-   
-    await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
-    await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
-    await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
-    await $("//input[@id='giftcard_2_SenderName']").setValue('test');
-    await $("//input[@id='giftcard_2_SenderEmail']").setValue('tes222t@gmail.com');
+    
+     await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
+     await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
+     await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
+     await $("//input[@id='giftcard_2_SenderName']").setValue('test');
+     await $("//input[@id='giftcard_2_SenderEmail']").setValue('tes222t@gmail.com');
 
-    await $("input#add-to-wishlist-button-2").click();
-    await $("//div[@id='bar-notification']//a[@href='/wishlist']").click();
+     await $("input#add-to-wishlist-button-2").click();
+     await $("//div[@id='bar-notification']//a[@href='/wishlist']").click();
 
-    let isItemExist = await $("//table/tbody/tr/td[4]/a").getText();
-    expect(isItemExist).toBeDisplayed();
+     let isItemExist = await $("//table/tbody/tr/td[4]/a")
+     expect(isItemExist).toBeDisplayed();
 });
 
+    it('Verify that allows adding an item to the card', async () => {
+     await browser.url(`https://demowebshop.tricentis.com`);
+
+   
+     await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
+     await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
+     await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
+     await $("//input[@id='giftcard_2_SenderName']").setValue('test');
+     await $("//input[@id='giftcard_2_SenderEmail']").setValue('tes222t@gmail.com');
+
+     await $("input#add-to-cart-button-2").click();
+     await $("//div[@id='bar-notification']//a[@href='/cart']").click();
+
+     let isItemExist = await $("//div/form/table/tbody/tr/td[3]/a")
+     expect(isItemExist).toBeDisplayed();
+});
+
+   it('Verify that allows removing an item from the card', async () => {
+     await browser.url(`https://demowebshop.tricentis.com`);
+ 
+   
+     await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
+     await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
+     await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
+     await $("//input[@id='giftcard_2_SenderName']").setValue('test');
+     await $("//input[@id='giftcard_2_SenderEmail']").setValue('tes222t@gmail.com');
+
+     await $("input#add-to-cart-button-2").click();
+     await $("//div[@id='bar-notification']//a[@href='/cart']").click();
+     await $("input[name='removefromcart']").click();
+     await $("//input[@name='updatecart']").click();
+
+     let cartItem = await $("//div[@class='order-summary-content']").getText();
+     expect(cartItem).toEqual('Your Shopping Cart is empty!')
+});
 
 });
 
