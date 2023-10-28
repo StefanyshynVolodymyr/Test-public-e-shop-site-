@@ -147,14 +147,11 @@ describe('e-shop', () => {
     it('Verify that allows changing number of items on page', async () => {
       await browser.url(`https://demowebshop.tricentis.com`);
     
-      // Navigate to the relevant page
       await $("//ul[@class='list']//a[@href='/computers']").click();
       await $("//h2[@class='title']/a[@title='Show products in category Desktops']").click();
       
       const productQuantity = await $$(".product-grid .item-box .product-item");
       const products = await productQuantity.length;
-  
-      //console.log(products)
   
       await $("#products-pagesize > option:nth-child(1)").click();
       const productQuantityChanged = await $$(".product-grid .item-box .product-item");
@@ -163,5 +160,24 @@ describe('e-shop', () => {
       expect (products).not.toEqual(productsChanged)
   
   });
+
+  it('Verify that allows adding an item to the Wishlist', async () => {
+    await browser.url(`https://demowebshop.tricentis.com`);
+
+   
+    await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
+    await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
+    await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
+    await $("//input[@id='giftcard_2_SenderName']").setValue('test');
+    await $("//input[@id='giftcard_2_SenderEmail']").setValue('tes222t@gmail.com');
+
+    await $("input#add-to-wishlist-button-2").click();
+    await $("//div[@id='bar-notification']//a[@href='/wishlist']").click();
+
+    let isItemExist = await $("//table/tbody/tr/td[4]/a").getText();
+    expect(isItemExist).toBeDisplayed();
+});
+
+
 });
 
