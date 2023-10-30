@@ -1,4 +1,5 @@
 import { expect, browser, $ } from '@wdio/globals'
+import { loginUser } from './loginUser.js';
 
 function generateRandomEmail() {
     const emailPrefix = Math.random().toString(36).substring(7);
@@ -212,6 +213,40 @@ describe('e-shop', () => {
 
      let cartItem = await $("//div[@class='order-summary-content']").getText();
      expect(cartItem).toEqual('Your Shopping Cart is empty!')
+});
+
+
+//CODE ABOVE SHOULD BE SAVED AND REUSABLE, IT IS NOT GOOD APPROACH TO USE THE SAME CODE A COUPLE TIMES (At this momment I don't know how handle it))
+   it.only('Verify that allows checkout an item ', async () => {  
+     await browser.url(`https://demowebshop.tricentis.com`);
+     
+     await loginUser('tes222t@gmail.com', '123456');
+
+     await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
+     await $("//input[@id='giftcard_2_RecipientName']").setValue('test');
+     await $("//input[@id='giftcard_2_RecipientEmail']").setValue('tes222t@gmail.com');
+     await $("input#add-to-cart-button-2").click();
+     await $("//div[@id='bar-notification']//a[@href='/cart']").click();
+     await $("/html//input[@id='termsofservice']").click();
+     await $("//button[@id='checkout']").click();
+     await $("//input[@title='Continue']").click();
+     await $("//div/ul[@class='method-list']/li[3]/div[@class='method-name']/div[@class='payment-details']/input[@name='paymentmethod']").click();
+     await $("//div[@id='payment-method-buttons-container']/input[@value='Continue']").click();
+     //enter card data
+     await $("//input[@id='CardholderName']").setValue('Volodymyr');
+     await $("//input[@id='CardNumber']").setValue('4242424242424242');
+     await $("#ExpireMonth > option:nth-child(2)").click();
+     await $("#ExpireYear > option:nth-child(8)").click();
+     await $("//input[@id='CardCode']").setValue('123');
+
+     await $("//div[@id='payment-info-buttons-container']/input[@value='Continue']").click();
+     await $("//div[@id='confirm-order-buttons-container']/input[@value='Confirm']").click()
+
+    // let text = await $("/html/body/div[4]/div[1]/div[4]/div/div/div[2]/div/div[1]/strong").getText();
+   
+
+    // console.log(text)
+
 });
 
 });
