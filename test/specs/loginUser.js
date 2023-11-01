@@ -1,4 +1,4 @@
-// loginUser.js
+
 export const loginUser = async (email, password) => {
   await $('.ico-login').click();
   await $('//input[@id="Email"]').setValue(email);
