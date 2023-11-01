@@ -47,6 +47,7 @@ describe('e-shop', () => {
     
       const logoutLink = await $("//a[@href='/logout']");
       expect(await logoutLink.isDisplayed()).toBe(true);
+      await $("//a[@href='/logout']").click();
     });
 
     it('Verify that Computers group has 3 sub-groups with correct names', async () => {
@@ -217,7 +218,7 @@ describe('e-shop', () => {
 
 
 //CODE ABOVE SHOULD BE SAVED AND REUSABLE, IT IS NOT GOOD APPROACH TO USE THE SAME CODE A COUPLE TIMES (At this momment I don't know how to handle it))
-   it.only('Verify that allows checkout an item ', async () => {  
+   it('Verify that allows checkout an item ', async () => {  
      await browser.url(`https://demowebshop.tricentis.com`);
     
      await loginUser('tes222t@gmail.com', '123456');
@@ -248,6 +249,7 @@ describe('e-shop', () => {
 
     let text = await $("div.title > strong").getText();
     expect (text).toEqual('Your order has been successfully processed!')
+    await $("//a[@href='/logout']").click();
   });
 
 });
