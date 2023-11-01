@@ -216,10 +216,10 @@ describe('e-shop', () => {
 });
 
 
-//CODE ABOVE SHOULD BE SAVED AND REUSABLE, IT IS NOT GOOD APPROACH TO USE THE SAME CODE A COUPLE TIMES (At this momment I don't know how handle it))
+//CODE ABOVE SHOULD BE SAVED AND REUSABLE, IT IS NOT GOOD APPROACH TO USE THE SAME CODE A COUPLE TIMES (At this momment I don't know how to handle it))
    it.only('Verify that allows checkout an item ', async () => {  
      await browser.url(`https://demowebshop.tricentis.com`);
-     
+    
      await loginUser('tes222t@gmail.com', '123456');
 
      await $("//div[@class='product-item']//h2/a[@href='/25-virtual-gift-card']").click();
@@ -240,14 +240,15 @@ describe('e-shop', () => {
      await $("//input[@id='CardCode']").setValue('123');
 
      await $("//div[@id='payment-info-buttons-container']/input[@value='Continue']").click();
+     await browser.pause(2000);
+     
+
      await $("//div[@id='confirm-order-buttons-container']/input[@value='Confirm']").click()
+     
 
-    // let text = await $("/html/body/div[4]/div[1]/div[4]/div/div/div[2]/div/div[1]/strong").getText();
-   
-
-    // console.log(text)
-
-});
+    let text = await $("div.title > strong").getText();
+    expect (text).toEqual('Your order has been successfully processed!')
+  });
 
 });
 
