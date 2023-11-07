@@ -219,7 +219,7 @@ describe('e-shop', () => {
 
 
 //On this stage I have understood that I need to use the Page Object :) 
-   it.only('Verify that allows checkout an item ', async () => {  
+   it('Verify that allows checkout an item ', async () => {  
      await browser.url(`https://demowebshop.tricentis.com`);
      //Login user
      await loginUser('tes222t@gmail.com', '123456');
