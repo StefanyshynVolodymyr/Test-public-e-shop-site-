@@ -218,7 +218,7 @@ describe('e-shop', () => {
 });
 
 
-//CODE ABOVE SHOULD BE SAVED AND REUSABLE, IT IS NOT GOOD APPROACH TO USE THE SAME CODE A COUPLE TIMES (At this momment I don't know how to handle it))
+//On this stage I have understood that I need to use the Page Object :) 
    it.only('Verify that allows checkout an item ', async () => {  
      await browser.url(`https://demowebshop.tricentis.com`);
      //Login user
