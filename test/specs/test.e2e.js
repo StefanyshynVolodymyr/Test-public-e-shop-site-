@@ -1,5 +1,5 @@
 import { expect, browser, $ } from '@wdio/globals'
-import { loginUser } from './loginUser.js';
+import { loginUser } from '../../Helpers/loginUser.js';
 
 function generateRandomEmail() {
     const emailPrefix = Math.random().toString(36).substring(7);
